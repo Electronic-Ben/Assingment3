@@ -7,7 +7,6 @@ def is_float(x):
         return False
     return True
         
-
 def get_equation():
     ans = input("Enter an equation (use ^ for exponents)\n").split()
     if ans:
@@ -46,7 +45,7 @@ def parse_equation(eq):
     a = ""
     for i in range(len(eq[0]) - 1, -1, -1):
         char = eq[0][i]
-        if (a + char).isdigit():
+        if is_float(a + char):
             a += char
         else:
             if a == "":
