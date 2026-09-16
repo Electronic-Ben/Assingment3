@@ -1,8 +1,4 @@
-import os
 import math
-
-def clear():
-    os.system("cls")
 
 def is_float(x):
     try:
@@ -13,48 +9,89 @@ def is_float(x):
         
 
 def get_equation():
-    ans = input("Enter an equation (use ^ for exponents)\n")
+    ans = input("Enter an equation (use ^ for exponents)\n").split()
     if ans:
         return ans
     print("Invalid.")
     return get_equation()
-
-def get_type(a):
-    if a.isalpa():
-        return "letter"
-    elif a.is_float():
-        return "number"
-    elif a == "+" or a == "-" or a == "^" or a == '/' or a == "*":
-        return "symbol"
-    else:
-        return "none"
     
-
 def parse_equation(eq):
     var = ""
-    terms = []
-    term = ""
-    last_type = "none"
 
-    for a in eq:
-        ty = get_type(a)
-
-        match ty:
-            case "letter":
+    for term in eq:
+        for a in term:
+            if a.isalpha():
                 if var == "":
                     var = a
                 elif a == var:
                     pass
                 else:
                     return False
-            case "number" if last_type == "number":
-                term += a
-            case "number" if last_type != "number":
-                # add old term to list and clear term varraible
-                term
-
         
-def calculate_quadratic():
+    if eq[1] == "^":
+        if eq[2] != "2":
+            return False
+        del eq[1:3]
+
+    if eq[1][0] == "^":
+        if eq[1][1] != "2":
+            return False
+        del eq[1]
+
+    if eq[0][-1] == "^":
+        if eq[1] != '2':
+            return False
+        del eq[1]
+
+    a = ""
+    for i in range(len(eq[0]) - 1, -1, -1):
+        char = eq[0][i]
+        if (a + char).isdigit():
+            a += char
+        else:
+            if a == "":
+                a = "1"
+            if is_float(a):
+                a = float(a)
+                break
+            else:
+                return False
+    
+    if eq[2][-1] != var:
+        return False
+    else:
+        b = eq[2][:-1]
+        if is_float(b):
+            b = float(b)
+        else:
+            return False
+    
+    if eq[1] != "+" and eq[1] != "-":
+        return False
+    elif eq[1] == "-":
+        b *= -1
+
+    if is_float(eq[4]):
+        c = float(eq[4])
+    else:
+        return False
+    
+    if eq[3] != "+" and eq[3] != "-":
+        return False
+    elif eq[3] == "-":
+        c *= -1
+
+    return [a, b, c]
+
+def calculate_answer(a, b, c):
+    try:
+        ans1 = (-b + math.sqrt((b**2) - (4*a*c))) / (2*a)
+        ans2 = (-b - math.sqrt((b**2) - (4*a*c))) / (2*a)
+    except:
+        return False
+    return [round(ans1, 3), round(ans2, 3)]
+        
+def solve_quadrtic():
     works = False
     while not works:
         terms = get_equation()
@@ -63,3 +100,18 @@ def calculate_quadratic():
             works = True
         else:
             print("Invalid.")
+
+    ans = calculate_answer(parsed[0], parsed[1], parsed[2])
+
+    if not ans:
+        print("Problem has no solution.")
+    elif ans[0] == ans[1]:
+        print("Problem has one solution at:\n  " + str(ans[0]))
+    else:
+        print("Problem 2 solutions at:")
+        print("  " + str(ans[0]))
+        print("  " + str(ans[1]))
+    
+    print()
+
+solve_quadrtic()
