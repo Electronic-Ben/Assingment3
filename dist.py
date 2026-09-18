@@ -37,8 +37,12 @@ def calculate():
 
     dist = math.sqrt(((pos2[0]-pos1[0])**2) + ((pos2[1]-pos1[1])**2))
 
-    print("Distance between points: ")
-    print("("  + str(pos1[0]) + ", " + str(pos1[1]) + ") and ("  + str(pos2[0]) + ", " + str(pos2[1]) + ")")
-    print("is " + str(round(dist, 3)))
+    print("\nDistance between points: ")
+    print("("  + str(pos1[0]) + ", " + str(pos1[1]) + ") and ("  + str(pos2[0]) + ", " + str(pos2[1]) + ") is " + str(round(dist, 3)))
+
+    mid_x = (pos1[0] + pos2[0]) / 2
+    mid_y = (pos1[1] + pos2[1]) / 2
+
+    print("\nMidpoint between them is (" + str(round(mid_x, 3)) + ", " + str(round(mid_y, 3)) + ")")
 
 calculate()
