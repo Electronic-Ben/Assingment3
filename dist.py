@@ -12,9 +12,13 @@ def is_float(x):
 def get_coord(n):
     ans = input("Enter coordinate pair " + str(n) + ": ")
 
+    negate = False
+
     x = "0"
     for i in range(len(ans)):
         char = ans[i]
+        if char == "-":
+            negate = not negate
         if is_float(x+char) and char != " ":
             x += char
         else:
@@ -22,16 +26,22 @@ def get_coord(n):
                 ans = ans[i+1:]
                 break
 
+    negate = False
+
     y = "0"
     for i in range(len(ans)):
         char = ans[i]
+        if char == "-":
+            negate = not negate
         if is_float(y+char) and char != " ":
             y += char
         else:
             if y != "0":
                 break
 
-    return [float(x), float(y)]
+    x = -float(x) if negate else float(x)
+    y = -float(y) if negate else float(y)
+    return [x, y]
 
 # calculate the distance and midpoint between 2 coordinate pairs
 def calculate():
