@@ -1,5 +1,6 @@
 import math
 
+# return if a value is a float or not
 def is_float(x):
     try:
         float(x)
@@ -7,6 +8,7 @@ def is_float(x):
         return False
     return True
 
+# get a coordinate pair, with error handling
 def get_coord(n):
     ans = input("Enter coordinate pair " + str(n) + ": ")
 
@@ -31,6 +33,7 @@ def get_coord(n):
 
     return [float(x), float(y)]
 
+# calculate the distance and midpoint between 2 coordinate pairs
 def calculate():
     pos1 = get_coord(1)
     pos2 = get_coord(2)

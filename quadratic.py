@@ -1,5 +1,6 @@
 import math
 
+# return true if the value is a float, false otherwise
 def is_float(x):
     try:
         float(x)
@@ -7,6 +8,7 @@ def is_float(x):
         return False
     return True
         
+# get the equation from the user, return it if not empty
 def get_equation():
     ans = input("Enter an equation (use ^ for exponents)\n").split()
     if ans:
@@ -14,6 +16,7 @@ def get_equation():
     print("Invalid.")
     return get_equation()
     
+# validate equation into a, b, and c values
 def parse_equation(eq):
     var = ""
 
@@ -82,6 +85,7 @@ def parse_equation(eq):
 
     return [a, b, c]
 
+# calcualte the zeros of the equation given abc values
 def calculate_answer(a, b, c):
     try:
         ans1 = (-b + math.sqrt((b**2) - (4*a*c))) / (2*a)
@@ -89,7 +93,8 @@ def calculate_answer(a, b, c):
     except:
         return False
     return [round(ans1, 3), round(ans2, 3)]
-        
+
+# get a valid equation, then parse, solve, and display it    
 def solve_quadrtic():
     works = False
     while not works:

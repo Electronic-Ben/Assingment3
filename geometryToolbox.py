@@ -1,12 +1,14 @@
 import os
 import math
 
+# clear the console, works for linux and windows
 def clear():
     if os.name == "nt":
         os.system("cls")
     else:
         os.system("clear")
 
+# get a float value from user, including error handling
 def get_float(msg, fail = "Invalid."):
     try:
         ans = float(input(msg))
@@ -26,19 +28,20 @@ def get_int(msg, fail = "Invalid."):
 class Shape:
     name = "NONE"
 
+    # alert if callback is not overwritten
     def callback(self):
         print("UNASSIGNED")
 
+# Circle class to handle circle area calculations
 class Circle(Shape):
     name = "Circle"
 
+    # get the readius and display
     def callback(self):
-        r = self.get_radius()
+        r = get_float("Enter radius: ")
         self.display_info(r)
-
-    def get_radius():
-        return get_float("Enter radius: ")
     
+    # caclulate and display the area and circumfrence
     def display_info(r):
         area = math.pi * (r*r)
         cir = 2 * math.pi * r
@@ -49,6 +52,7 @@ class Circle(Shape):
 class Triangle(Shape):
     name = "Triangle"
 
+    # calculate the area from either 3 sides or base and height
     def callback(self):
         ans = get_float("Enter base (-1 to swtich to using side lenghts): ")
 
@@ -57,13 +61,14 @@ class Triangle(Shape):
         else:
             self.calc_from_sides(self)
             
-
+    # calcualte the area from the base and height
     def calc_from_base(base):
         height = get_float("Enter height: ")
         area = base * height / 2
 
         print("Area is " + str(round(area, 2)))
 
+    # calcualte the area from 3 side lengths
     def calc_from_sides(self):
         a = get_float('Side 1 length: ')
         b = get_float('Side 2 length: ')
@@ -84,9 +89,11 @@ class Triangle(Shape):
 class Trapezoid(Shape):
     name = "Trapezoid"
 
+    # display the area of the entered trapezoid
     def callback(self):
         self.display_area(self.get_inputs())
         
+    # get bases and height from user
     def get_inputs():
         b1 = get_float("Enter base length: ")
         b2 = get_float("Enter second base length: ")
@@ -94,6 +101,7 @@ class Trapezoid(Shape):
 
         return [b1, b2, h]
     
+    # calculate and display area
     def display_area(inputs):
         [b1, b2, h] = inputs
         area = ((b1 + b2) * h) / 2
@@ -103,6 +111,7 @@ class Trapezoid(Shape):
 class Regular_Polygon(Shape):
     name = "Regular Polygon"
 
+    # use the regular polygon formula to calculate the area
     def callback(self):
         n = get_int("Enter number of sides: ")
         s = get_float("Enter side lenght: ")
@@ -118,6 +127,7 @@ class Menu:
     shapes = []
     selected = 0
 
+    # display each of the added options, capitalizing the selected one
     def display(self):
         clear()
         print("  Choose Shape")
@@ -132,12 +142,15 @@ class Menu:
             else:
                 print(shape.name)
 
+    # add an item to the menu
     def add_shape(self, shape):
         self.shapes.append(shape)
 
+    # cycle the menu once downwards
     def  cycle_menu(self):
         self.selected = (self.selected + 1) % len(self.shapes)
 
+    # run the callback for the selected menu item
     def select_shape(self):
         clear()
         
@@ -147,12 +160,14 @@ class Menu:
 
         shape.callback(shape)
 
+# add all the shape classes to the menu
 def init_menu(menu):
     menu.add_shape(Circle)
     menu.add_shape(Triangle)
     menu.add_shape(Trapezoid)
     menu.add_shape(Regular_Polygon)
     
+# loop through the menu until the user selects, then run that shape
 def main_loop():
     run = True
     menu = Menu()
