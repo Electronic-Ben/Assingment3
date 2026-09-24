@@ -32,6 +32,8 @@ def solve_quadrtic():
     [a, b, c] = get_equation()
     ans = calculate_answer(a, b, c)
 
+    print()
+    
     if not ans:
         print("Problem has no solution.")
     elif ans[0] == ans[1]:
