@@ -1,89 +1,22 @@
 import math
 
-# return true if the value is a float, false otherwise
-def is_float(x):
+# get a float value from user, including error handling
+def get_float(msg, fail = "Invalid."):
     try:
-        float(x)
-    except:
-        return False
-    return True
+        ans = float(input(msg))
+    except Exception as e:
+        print(fail)
+        return get_float(msg, fail)
+    return ans
         
 # get the equation from the user, return it if not empty
 def get_equation():
-    ans = input("Enter an equation (use ^ for exponents)\n").split()
-    if ans:
-        return ans
-    print("Invalid.")
-    return get_equation()
-    
-# validate equation into a, b, and c values
-def parse_equation(eq):
-    var = ""
-
-    for term in eq:
-        for a in term:
-            if a.isalpha():
-                if var == "":
-                    var = a
-                elif a == var:
-                    pass
-                else:
-                    return False
-        
-    if eq[1] == "^":
-        if eq[2] != "2":
-            return False
-        del eq[1:3]
-
-    if eq[1][0] == "^":
-        if eq[1][1] != "2":
-            return False
-        del eq[1]
-
-    if eq[0][-1] == "^":
-        if eq[1] != '2':
-            return False
-        del eq[1]
-
-    a = ""
-    for i in range(len(eq[0]) - 1, -1, -1):
-        char = eq[0][i]
-        if is_float(a + char):
-            a += char
-        else:
-            if a == "":
-                a = "1"
-            if is_float(a):
-                a = float(a)
-                break
-            else:
-                return False
-    
-    if eq[2][-1] != var:
-        return False
-    else:
-        b = eq[2][:-1]
-        if is_float(b):
-            b = float(b)
-        else:
-            return False
-    
-    if eq[1] != "+" and eq[1] != "-":
-        return False
-    elif eq[1] == "-":
-        b *= -1
-
-    if is_float(eq[4]):
-        c = float(eq[4])
-    else:
-        return False
-    
-    if eq[3] != "+" and eq[3] != "-":
-        return False
-    elif eq[3] == "-":
-        c *= -1
-
+    print("Enter the a, b, and c values of the quadratic equation (ax^2 + bx + c)")
+    a = get_float("Enter 'a' value: ")
+    b = get_float("Enter 'b' value: ")
+    c = get_float("Enter 'c' value: ")
     return [a, b, c]
+
 
 # calcualte the zeros of the equation given abc values
 def calculate_answer(a, b, c):
@@ -96,16 +29,8 @@ def calculate_answer(a, b, c):
 
 # get a valid equation, then parse, solve, and display it    
 def solve_quadrtic():
-    works = False
-    while not works:
-        terms = get_equation()
-        parsed = parse_equation(terms)
-        if parsed:
-            works = True
-        else:
-            print("Invalid.")
-
-    ans = calculate_answer(parsed[0], parsed[1], parsed[2])
+    [a, b, c] = get_equation()
+    ans = calculate_answer(a, b, c)
 
     if not ans:
         print("Problem has no solution.")
@@ -115,7 +40,5 @@ def solve_quadrtic():
         print("Problem 2 solutions at:")
         print("  " + str(ans[0]))
         print("  " + str(ans[1]))
-    
-    print()
 
 solve_quadrtic()
